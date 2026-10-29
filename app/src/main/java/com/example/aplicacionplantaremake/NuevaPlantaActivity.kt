@@ -137,7 +137,7 @@ class NuevaPlantaActivity : AppCompatActivity() {
             finish() // Cierra la pantalla y regresa al Home
         }.addOnFailureListener { error ->
             btnGuardar.isEnabled = true
-            Toast.makeText(this, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "No se pudo guardar la planta. Inténtalo de nuevo.", Toast.LENGTH_SHORT).show()
         }
     }
 }

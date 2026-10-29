@@ -44,7 +44,7 @@ class LoginActivity : AppCompatActivity() {
                         var home = Intent (this, HomeActivity::class.java)
                         startActivity(home)
                     } else{
-                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "No se pudo completar la autenticación. Revisa los datos e inténtalo de nuevo.", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

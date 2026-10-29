@@ -54,7 +54,7 @@ class RegistroActivity : AppCompatActivity() {
                                     val login = Intent(this, LoginActivity::class.java)
                                     startActivity(login)
                                 } else{
-                                    Toast.makeText(this, it.exception.toString(),
+                                    Toast.makeText(this, "No se pudo completar la autenticación. Revisa los datos e inténtalo de nuevo.",
                                         Toast.LENGTH_SHORT).show()
                                 }
                             }
@@ -65,7 +65,7 @@ class RegistroActivity : AppCompatActivity() {
                     Toast.makeText(this, "Faltan valores requeridos", Toast.LENGTH_SHORT).show()
                 }
             } catch (e:Exception){
-                e.printStackTrace()
+                Toast.makeText(this, "No se pudo completar la operación. Inténtalo de nuevo.", Toast.LENGTH_SHORT).show()
             }
         }
 

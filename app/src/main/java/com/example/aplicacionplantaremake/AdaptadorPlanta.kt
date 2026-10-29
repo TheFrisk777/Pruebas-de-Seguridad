@@ -37,10 +37,21 @@ class AdaptadorPlanta(
             // Aquí hacemos la magia: Convertir el texto Base64 de vuelta a Imagen
             try {
                 if (!item.foto.isNullOrEmpty()) {
-                    // Decodificamos el texto a bytes
+                    // Limitar bytes y píxeles antes de decodificar contenido remoto.
+                    require(item.foto.length <= 1_400_000) { "Imagen demasiado grande" }
                     val imageBytes = Base64.decode(item.foto, Base64.DEFAULT)
-                    // Reconstruimos la imagen con los bytes
-                    val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+                    val options = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+                    BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size, options)
+                    require(options.outWidth in 1..4096 && options.outHeight in 1..4096)
+                    require(options.outWidth.toLong() * options.outHeight <= 4_000_000L)
+                    options.inSampleSize = 1
+                    while (options.outWidth / options.inSampleSize > 1024 ||
+                        options.outHeight / options.inSampleSize > 1024) {
+                        options.inSampleSize *= 2
+                    }
+                    options.inJustDecodeBounds = false
+                    val decodedImage = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size, options)
+                    requireNotNull(decodedImage)
                     foto.setImageBitmap(decodedImage)
                 } else {
                     // Si no hay foto, pone el icono de Android
